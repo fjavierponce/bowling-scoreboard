@@ -2,9 +2,12 @@ package fponce.resource.loader;
 
 import java.util.List;
 
-import javafx.util.Pair;
+import fponce.scoreboard.entity.Score;
+
 
 public interface ScoreInputReader {
 
-    List<Pair> readScores();
+    List<Score> readScores();
+
+    List<String> readPlayers();
 }

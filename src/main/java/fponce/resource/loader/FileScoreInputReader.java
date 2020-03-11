@@ -1,7 +1,7 @@
 package fponce.resource.loader;
 
 import java.io.IOException;
-import java.io.InputStream;
+import java.nio.charset.MalformedInputException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -9,20 +9,20 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.w3c.dom.Document;
-import org.xml.sax.SAXException;
-
+import fponce.scoreboard.entity.Score;
 import javafx.util.Pair;
 
 public class FileScoreInputReader implements ScoreInputReader {
 
     @Override
-    public List<Pair> readScores() {
+    public List<Score> readScores() {
         try {
             Path path = Paths.get("src/main/resources/scores.txt");
             List<String> data = Files.readAllLines(path);
             if (!data.isEmpty()) {
-                List<Pair> orderedScores = data.stream().map(this::createPair).collect(Collectors.toList());
+                List<Score> orderedScores = data.stream()
+                        .map(this::createIndividualScore)
+                        .collect(Collectors.toList());
                 return orderedScores;
             }
         } catch (IOException e) {
@@ -31,10 +31,17 @@ public class FileScoreInputReader implements ScoreInputReader {
         return Collections.emptyList();
     }
 
-    private Pair<String, Integer> createPair(String s) {
+    @Override
+    public List<String> readPlayers() {
+        List<Score> scores = readScores();
+        return scores.stream()
+                .map(Score::getName)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    private Score createIndividualScore(String s) {
         String[] a = s.split(" ");
-        String name = a[0];
-        Integer score = "F".equals(a[1]) ? -1 : Integer.valueOf(a[1]);
-        return new Pair<>(name, score);
+        return new Score(a[0], a[1]);
     }
 }
