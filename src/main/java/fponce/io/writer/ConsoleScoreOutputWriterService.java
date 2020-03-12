@@ -6,7 +6,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.stereotype.Service;
 
-import fponce.domain.Score;
+import fponce.domain.Shot;
 
 @Service
 public class ConsoleScoreOutputWriterService implements ScoreOutputWriterService {
@@ -14,8 +14,8 @@ public class ConsoleScoreOutputWriterService implements ScoreOutputWriterService
     private Log logger = LogFactory.getLog(ConsoleScoreOutputWriterService.class);
 
     @Override
-    public void printScores(List<Score> scores) {
-        scores.forEach(System.out::println);
+    public void printScores(List<Shot> shots) {
+        shots.forEach(System.out::println);
     }
 
     @Override

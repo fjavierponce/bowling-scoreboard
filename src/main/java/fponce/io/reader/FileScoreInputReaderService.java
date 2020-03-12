@@ -10,21 +10,21 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import fponce.domain.Score;
+import fponce.domain.Shot;
 
 @Service
 class FileScoreInputReaderService implements ScoreInputReaderService {
 
     @Override
-    public List<Score> readScores() {
+    public List<Shot> readScores() {
         try {
             Path path = Paths.get("src/main/resources/scores.txt");
             List<String> data = Files.readAllLines(path);
             if (!data.isEmpty()) {
-                List<Score> orderedScores = data.stream()
+                List<Shot> orderedShots = data.stream()
                         .map(this::createIndividualScore)
                         .collect(Collectors.toList());
-                return orderedScores;
+                return orderedShots;
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -34,15 +34,15 @@ class FileScoreInputReaderService implements ScoreInputReaderService {
 
     @Override
     public List<String> readPlayers() {
-        List<Score> scores = readScores();
-        return scores.stream()
-                .map(Score::getName)
+        List<Shot> shots = readScores();
+        return shots.stream()
+                .map(Shot::getName)
                 .distinct()
                 .collect(Collectors.toList());
     }
 
-    private Score createIndividualScore(String s) {
+    private Shot createIndividualScore(String s) {
         String[] a = s.split(" ");
-        return new Score(a[0], a[1]);
+        return new Shot(a[0], a[1]);
     }
 }

@@ -1,12 +1,12 @@
 package fponce.io.reader;
 
 import java.util.List;
-import fponce.domain.Score;
+import fponce.domain.Shot;
 
 
 public interface ScoreInputReaderService {
 
-    List<Score> readScores();
+    List<Shot> readScores();
 
     List<String> readPlayers();
 }

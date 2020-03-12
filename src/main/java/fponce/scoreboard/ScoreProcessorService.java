@@ -2,9 +2,9 @@ package fponce.scoreboard;
 
 import java.util.List;
 
-import fponce.domain.Score;
-import fponce.domain.ScoreBoard;
+import fponce.domain.BowlingScoreboard;
+import fponce.domain.Shot;
 
 public interface ScoreProcessorService {
-    List<ScoreBoard> calculateScores(List<String> players, List<Score> scores);
+    List<BowlingScoreboard> calculateScores(List<String> players, List<Shot> shots);
 }

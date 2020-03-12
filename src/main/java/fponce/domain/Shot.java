@@ -1,11 +1,11 @@
 package fponce.domain;
 
-public class Score {
+public class Shot {
 
     private String name;
     private Integer score;
 
-    public Score(String name, String score) {
+    public Shot(String name, String score) {
         this.setName(name);
         this.setScore("F".equals(score) ? -1 : Integer.valueOf(score));
     }

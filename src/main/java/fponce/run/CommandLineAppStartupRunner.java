@@ -5,10 +5,10 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import fponce.domain.ScoreBoard;
+import fponce.domain.BowlingScoreboard;
 import fponce.io.reader.ScoreInputReaderService;
 import fponce.io.writer.ScoreOutputWriterService;
-import fponce.domain.Score;
+import fponce.domain.Shot;
 import fponce.scoreboard.ScoreProcessorService;
 
 @Component
@@ -28,11 +28,11 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
 
     @Override
     public void run(String...args) {
-        List<Score> scores = reader.readScores();
-        writer.printScores(scores);
+        List<Shot> shots = reader.readScores();
+        writer.printScores(shots);
         List<String> players = reader.readPlayers();
         writer.printPlayers(players);
-        List<ScoreBoard> scoreBoards = scoreProcessorService.calculateScores(players, scores);
+        List<BowlingScoreboard> bowlingScoreboards = scoreProcessorService.calculateScores(players, shots);
     }
 
 }
