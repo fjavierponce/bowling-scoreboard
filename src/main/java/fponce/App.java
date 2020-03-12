@@ -3,6 +3,9 @@ package fponce;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
 import fponce.resource.loader.FileScoreInputReader;
 import fponce.resource.loader.ScoreInputReader;
 import fponce.resource.writter.ConsoleScoreOutputWriter;
@@ -11,17 +14,16 @@ import fponce.scoreboard.entity.Score;
 import fponce.scoreboard.entity.ScoreBoard;
 import fponce.scoreboard.process.BowlingScoreboard;
 
-public class App 
-{
+@SpringBootApplication
+public class App {
 
-    public static void main( String[] args )
-    {
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
         List scores = readFile();
         List players = readPlayers();
         BowlingScoreboard bowlingScoreboard = new BowlingScoreboard();
         Map<String, ScoreBoard> calculatedScores = bowlingScoreboard.process(scores);
         printScores(calculatedScores);
-
     }
 
     private static void printScores(Map<String, ScoreBoard> calculatedScores) {
