@@ -1,11 +1,10 @@
-package fponce.resource.loader;
+package fponce.resource.reader;
 
 import java.util.List;
-
 import fponce.scoreboard.entity.Score;
 
 
-public interface ScoreInputReader {
+public interface ScoreInputReaderService {
 
     List<Score> readScores();
 

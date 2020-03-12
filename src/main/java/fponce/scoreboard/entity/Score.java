@@ -12,10 +12,7 @@ public class Score {
 
     @Override
     public String toString() {
-        return "Score{" +
-                "name='" + getName() + '\'' +
-                ", score=" + getScore() +
-                '}';
+        return getName() + "[" +getScore() + "]";
     }
 
     public String getName() {
