@@ -1,4 +1,4 @@
-package fponce.resource.reader;
+package fponce.io.reader;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +10,7 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
-import fponce.scoreboard.entity.Score;
+import fponce.domain.Score;
 
 @Service
 class FileScoreInputReaderService implements ScoreInputReaderService {

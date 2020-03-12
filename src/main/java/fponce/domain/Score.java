@@ -1,4 +1,4 @@
-package fponce.scoreboard.entity;
+package fponce.domain;
 
 public class Score {
 

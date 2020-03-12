@@ -1,7 +1,7 @@
-package fponce.resource.reader;
+package fponce.io.reader;
 
 import java.util.List;
-import fponce.scoreboard.entity.Score;
+import fponce.domain.Score;
 
 
 public interface ScoreInputReaderService {

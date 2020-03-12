@@ -1,8 +1,8 @@
-package fponce.resource.writer;
+package fponce.io.writer;
 
 import java.util.List;
 
-import fponce.scoreboard.entity.Score;
+import fponce.domain.Score;
 
 public interface ScoreOutputWriterService {
 

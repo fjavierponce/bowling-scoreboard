@@ -5,9 +5,9 @@ import java.util.List;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import fponce.resource.reader.ScoreInputReaderService;
-import fponce.resource.writer.ScoreOutputWriterService;
-import fponce.scoreboard.entity.Score;
+import fponce.io.reader.ScoreInputReaderService;
+import fponce.io.writer.ScoreOutputWriterService;
+import fponce.domain.Score;
 
 @Component
 public class CommandLineAppStartupRunner implements CommandLineRunner {

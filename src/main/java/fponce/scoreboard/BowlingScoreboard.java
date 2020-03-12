@@ -1,11 +1,11 @@
-package fponce.scoreboard.process;
+package fponce.scoreboard;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import fponce.scoreboard.entity.Score;
-import fponce.scoreboard.entity.ScoreBoard;
+import fponce.domain.Score;
+import fponce.domain.ScoreBoard;
 
 public class BowlingScoreboard {
 
