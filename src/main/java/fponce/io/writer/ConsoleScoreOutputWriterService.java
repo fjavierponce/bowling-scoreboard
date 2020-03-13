@@ -27,8 +27,13 @@ public class ConsoleScoreOutputWriterService implements ScoreOutputWriterService
     @Override
     public void printBoards(List<BowlingScoreboard> bowlingScoreboards) {
         for (BowlingScoreboard board: bowlingScoreboards) {
-            System.out.println(board.player);
-            board.totalPointsInFrame.stream().forEach(System.out::println);
+            System.out.println(">> " + board.player + " <<");
+            // Frames
+            System.out.printf("Frame    |%10d|%10d|%10d|%10d|%10d|%10d|%10d|%10d|%10d|%10d|",1,2,3,4,5,6,7,8,9,10);
+            // Scores
+            System.out.print("\nScore    |");
+            board.totalPointsInFrame.stream().forEach(point -> System.out.printf("%10d|", point));
+            System.out.println("\n\n");
         }
     }
 }

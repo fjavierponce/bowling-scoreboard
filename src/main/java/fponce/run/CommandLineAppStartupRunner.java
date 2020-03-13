@@ -34,7 +34,6 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
         //writer.printPlayers(players);
         List<BowlingScoreboard> bowlingScoreboards = scoreProcessorService.calculateScores(players, shots);
         writer.printBoards(bowlingScoreboards);
-        System.out.println(bowlingScoreboards);
     }
 
 }
