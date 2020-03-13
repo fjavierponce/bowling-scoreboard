@@ -5,37 +5,29 @@ import java.util.List;
 
 public class BowlingScoreboard {
 
-    private String player;
-    private int currentFrame;
-    private Shot shot;
-    private List<Point> pointsByShot;
-    private List<Integer> totalPointsInFrame;
+    public State state;
+    public String player;
+    public int currentFrame;
+    public List<Integer> totalPointsInFrame;
+    int total;
 
     public BowlingScoreboard(String player) {
+        this.player = player;
         currentFrame = 1;
-        shot = Shot.FIRST;
-        pointsByShot = new ArrayList<>(2 * 10 + 1);
-        totalPointsInFrame = new ArrayList<>(10);
+        totalPointsInFrame = new ArrayList<Integer>(10);
+        state = State.PLAYING_FIRST_SHOT;
     }
 
-    enum Shot {
-        FIRST,
-        SECOND,
-        EXTRA
+    public void addFrame(int points) {
+        total = total + points;
+        this.totalPointsInFrame.add(total);
     }
 
-    enum Point {
-        ZERO,
-        ONE,
-        TWO,
-        THREE,
-        FOUR,
-        FIVE,
-        SIX,
-        SEVEN,
-        EIGHT,
-        NINE,
-        STRIKE, // When scoring 10 in the first shot
-        SPARE //Only could happen in second shot in frame
+    public enum State {
+        PLAYING_FIRST_SHOT,
+        PLAYING_SECOND_SHOT,
+        PLAYING_STRIKE,
+        PLAYING_SPARE,
+        FIRST_SHOT_AFTER_STRIKE
     }
 }
