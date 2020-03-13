@@ -18,7 +18,7 @@ class FileScoreInputReaderService implements ScoreInputReaderService {
     @Override
     public List<Shot> readScores() {
         try {
-            Path path = Paths.get("src/main/resources/scores.txt");
+            Path path = Paths.get("src/main/resources/scores2.txt");
             List<String> data = Files.readAllLines(path);
             if (!data.isEmpty()) {
                 List<Shot> orderedShots = data.stream()

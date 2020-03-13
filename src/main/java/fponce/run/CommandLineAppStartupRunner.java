@@ -29,10 +29,12 @@ public class CommandLineAppStartupRunner implements CommandLineRunner {
     @Override
     public void run(String...args) {
         List<Shot> shots = reader.readScores();
-        writer.printScores(shots);
+        //writer.printScores(shots);
         List<String> players = reader.readPlayers();
-        writer.printPlayers(players);
+        //writer.printPlayers(players);
         List<BowlingScoreboard> bowlingScoreboards = scoreProcessorService.calculateScores(players, shots);
+        writer.printBoards(bowlingScoreboards);
+        System.out.println(bowlingScoreboards);
     }
 
 }

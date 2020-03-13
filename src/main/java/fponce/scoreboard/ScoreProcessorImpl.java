@@ -1,5 +1,7 @@
 package fponce.scoreboard;
-import static fponce.domain.BowlingScoreboard.State.FIRST_SHOT_AFTER_STRIKE;
+import static fponce.domain.BowlingScoreboard.State.CONSECUTIVE_STRIKE;
+import static fponce.domain.BowlingScoreboard.State.HALT_GAME;
+import static fponce.domain.BowlingScoreboard.State.SECOND_SHOT_AFTER_STRIKE;
 import static fponce.domain.BowlingScoreboard.State.PLAYING_FIRST_SHOT;
 import static fponce.domain.BowlingScoreboard.State.PLAYING_SECOND_SHOT;
 import static fponce.domain.BowlingScoreboard.State.PLAYING_STRIKE;
@@ -11,6 +13,7 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.boot.SpringApplication;
 import org.springframework.stereotype.Service;
 
 import fponce.domain.Shot;
@@ -39,42 +42,64 @@ class ScoreProcessorImpl implements ScoreProcessorService {
         int firstShotInFrame = 0;
         int total = 0;
         for (Shot shot: filteredScoresByPlayer) {
-            if (board.state == PLAYING_FIRST_SHOT) {
-                if (shot.getScore() == 10) { // STRIKE
-                    board.state = PLAYING_STRIKE;
-                } else {
-                    firstShotInFrame = shot.getScore();
-                    board.state = PLAYING_SECOND_SHOT;
-                }
-            } else if (board.state == PLAYING_SECOND_SHOT) {
-                if (firstShotInFrame + shot.getScore() != 10) {
-                    board.addFrame(firstShotInFrame + shot.getScore());
-                    board.state = PLAYING_FIRST_SHOT;
-                } else {
-                    board.state = PLAYING_SPARE;
-                }
-            } else if (board.state == PLAYING_SPARE) {
-                board.addFrame(10 + shot.getScore());
-                if(shot.getScore() != 10) {
-                    firstShotInFrame = shot.getScore();
-                    board.state = PLAYING_SECOND_SHOT;
-                } else {
-                    board.state = PLAYING_STRIKE;
-                }
-            } else if (board.state == PLAYING_STRIKE) {
-                board.state = FIRST_SHOT_AFTER_STRIKE;
-                firstShotInFrame = shot.getScore();
-            } else if (board.state == FIRST_SHOT_AFTER_STRIKE) {
-                // Second shot after strike, summing to strike
-                board.addFrame(10 + firstShotInFrame + shot.getScore());
-                if (firstShotInFrame + shot.getScore() == 10) {
-                    board.state = PLAYING_SPARE;
-                } else {
-                    board.addFrame(firstShotInFrame + shot.getScore());
-                    board.state = PLAYING_FIRST_SHOT;
-                }
 
+            switch (board.state) {
+                case PLAYING_FIRST_SHOT:
+                    if (shot.getScore() == 10) { // STRIKE
+                        board.state = PLAYING_STRIKE;
+                    } else {
+                        firstShotInFrame = shot.getScore();
+                        board.state = PLAYING_SECOND_SHOT;
+                    }
+                    break;
+                case PLAYING_SECOND_SHOT:
+                    if (firstShotInFrame + shot.getScore() != 10) {
+                        board.addFrame(firstShotInFrame + shot.getScore());
+                        board.state = PLAYING_FIRST_SHOT;
+                    } else {
+                        board.state = PLAYING_SPARE;
+                    }
+                    break;
+                case PLAYING_SPARE:
+                    board.addFrame(10 + shot.getScore());
+                    if(shot.getScore() != 10) {
+                        firstShotInFrame = shot.getScore();
+                        board.state = PLAYING_SECOND_SHOT;
+                    } else {
+                        board.state = PLAYING_STRIKE;
+                    }
+                    break;
+                case PLAYING_STRIKE:
+                    if(shot.getScore() == 10) {
+                        //Consecutive strike
+                        board.state = CONSECUTIVE_STRIKE;
+                    } else {
+                        board.state = SECOND_SHOT_AFTER_STRIKE;
+                        firstShotInFrame = shot.getScore();
+                    }
+                    break;
+                case SECOND_SHOT_AFTER_STRIKE:
+                    // Second shot after strike, summing to strike
+                    board.addFrame(10 + firstShotInFrame + shot.getScore());
+                    if (firstShotInFrame + shot.getScore() == 10) {
+                        board.state = PLAYING_SPARE;
+                    } else if(board.currentFrame <= 10){
+                        board.addFrame(firstShotInFrame + shot.getScore());
+                        board.state = PLAYING_FIRST_SHOT;
+                    }
+                    break;
+                case CONSECUTIVE_STRIKE:
+                    // Add two strikes + shot
+                    board.addFrame(20 + shot.getScore());
+                    if (shot.getScore() != 10) {
+                        firstShotInFrame = shot.getScore();
+                        board.state = SECOND_SHOT_AFTER_STRIKE;
+                    }
+                    break;
+                default:
+                    throw new RuntimeException("Error in game");
             }
+
         }
         return board;
     }

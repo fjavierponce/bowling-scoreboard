@@ -14,13 +14,14 @@ public class BowlingScoreboard {
     public BowlingScoreboard(String player) {
         this.player = player;
         currentFrame = 1;
-        totalPointsInFrame = new ArrayList<Integer>(10);
+        totalPointsInFrame = new ArrayList<>(10);
         state = State.PLAYING_FIRST_SHOT;
     }
 
     public void addFrame(int points) {
         total = total + points;
         this.totalPointsInFrame.add(total);
+        currentFrame++;
     }
 
     public enum State {
@@ -28,6 +29,8 @@ public class BowlingScoreboard {
         PLAYING_SECOND_SHOT,
         PLAYING_STRIKE,
         PLAYING_SPARE,
-        FIRST_SHOT_AFTER_STRIKE
+        SECOND_SHOT_AFTER_STRIKE,
+        CONSECUTIVE_STRIKE,
+        HALT_GAME
     }
 }
