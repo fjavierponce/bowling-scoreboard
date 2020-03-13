@@ -10,7 +10,7 @@ import fponce.domain.BowlingScoreboard;
 import fponce.domain.Shot;
 
 @Service
-public class ConsoleScoreOutputWriterService implements ScoreOutputWriterService {
+class ConsoleScoreOutputWriterService implements ScoreOutputWriterService {
 
     private Log logger = LogFactory.getLog(ConsoleScoreOutputWriterService.class);
 
@@ -27,12 +27,12 @@ public class ConsoleScoreOutputWriterService implements ScoreOutputWriterService
     @Override
     public void printBoards(List<BowlingScoreboard> bowlingScoreboards) {
         for (BowlingScoreboard board: bowlingScoreboards) {
-            System.out.println(">> " + board.player + " <<");
+            System.out.println(">> " + board.getPlayer() + " <<");
             // Frames
             System.out.printf("Frame    |%10d|%10d|%10d|%10d|%10d|%10d|%10d|%10d|%10d|%10d|",1,2,3,4,5,6,7,8,9,10);
             // Scores
             System.out.print("\nScore    |");
-            board.totalPointsInFrame.stream().forEach(point -> System.out.printf("%10d|", point));
+            board.getTotalPointsInFrame().stream().forEach(point -> System.out.printf("%10d|", point));
             System.out.println("\n\n");
         }
     }

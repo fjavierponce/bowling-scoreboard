@@ -42,38 +42,38 @@ class ScoreProcessorImpl implements ScoreProcessorService {
         int total = 0;
         for (Shot shot: filteredScoresByPlayer) {
 
-            switch (board.state) {
+            switch (board.getState()) {
                 case PLAYING_FIRST_SHOT:
                     if (shot.getScore() == 10) { // STRIKE
-                        board.state = PLAYING_STRIKE;
+                        board.setState(PLAYING_STRIKE);
                     } else {
                         firstShotInFrame = shot.getScore();
-                        board.state = PLAYING_SECOND_SHOT;
+                        board.setState(PLAYING_SECOND_SHOT);
                     }
                     break;
                 case PLAYING_SECOND_SHOT:
                     if (firstShotInFrame + shot.getScore() != 10) {
                         board.addFrame(firstShotInFrame + shot.getScore());
-                        board.state = PLAYING_FIRST_SHOT;
+                        board.setState(PLAYING_FIRST_SHOT);
                     } else {
-                        board.state = PLAYING_SPARE;
+                        board.setState(PLAYING_SPARE);
                     }
                     break;
                 case PLAYING_SPARE:
                     board.addFrame(10 + shot.getScore());
                     if(shot.getScore() != 10) {
                         firstShotInFrame = shot.getScore();
-                        board.state = PLAYING_SECOND_SHOT;
+                        board.setState(PLAYING_SECOND_SHOT);
                     } else {
-                        board.state = PLAYING_STRIKE;
+                        board.setState(PLAYING_STRIKE);
                     }
                     break;
                 case PLAYING_STRIKE:
                     if(shot.getScore() == 10) {
                         //Consecutive strike
-                        board.state = CONSECUTIVE_STRIKE;
+                        board.setState(CONSECUTIVE_STRIKE);
                     } else {
-                        board.state = SECOND_SHOT_AFTER_STRIKE;
+                        board.setState(SECOND_SHOT_AFTER_STRIKE);
                         firstShotInFrame = shot.getScore();
                     }
                     break;
@@ -81,10 +81,10 @@ class ScoreProcessorImpl implements ScoreProcessorService {
                     // Second shot after strike, summing to strike
                     board.addFrame(10 + firstShotInFrame + shot.getScore());
                     if (firstShotInFrame + shot.getScore() == 10) {
-                        board.state = PLAYING_SPARE;
-                    } else if(board.currentFrame <= 10){
+                        board.setState(PLAYING_SPARE);
+                    } else if(board.getCurrentFrame() <= 10){
                         board.addFrame(firstShotInFrame + shot.getScore());
-                        board.state = PLAYING_FIRST_SHOT;
+                        board.setState(PLAYING_FIRST_SHOT);
                     }
                     break;
                 case CONSECUTIVE_STRIKE:
@@ -92,7 +92,7 @@ class ScoreProcessorImpl implements ScoreProcessorService {
                     board.addFrame(20 + shot.getScore());
                     if (shot.getScore() != 10) {
                         firstShotInFrame = shot.getScore();
-                        board.state = SECOND_SHOT_AFTER_STRIKE;
+                        board.setState(SECOND_SHOT_AFTER_STRIKE);
                     }
                     break;
                 default:

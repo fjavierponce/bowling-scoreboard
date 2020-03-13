@@ -5,11 +5,11 @@ import java.util.List;
 
 public class BowlingScoreboard {
 
-    public State state;
-    public String player;
-    public int currentFrame;
-    public List<Integer> totalPointsInFrame;
-    int total;
+    private State state;
+    private String player;
+    private int currentFrame;
+    private List<Integer> totalPointsInFrame;
+    private int total;
 
     public BowlingScoreboard(String player) {
         this.player = player;
@@ -22,6 +22,26 @@ public class BowlingScoreboard {
         total = total + points;
         this.totalPointsInFrame.add(total);
         currentFrame++;
+    }
+
+    public State getState() {
+        return this.state;
+    }
+
+    public void setState(State state) {
+        this.state = state;
+    }
+
+    public int getCurrentFrame() {
+        return currentFrame;
+    }
+
+    public String getPlayer() {
+        return player;
+    }
+
+    public List<Integer> getTotalPointsInFrame() {
+        return totalPointsInFrame;
     }
 
     public enum State {

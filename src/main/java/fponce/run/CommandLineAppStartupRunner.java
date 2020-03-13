@@ -12,7 +12,7 @@ import fponce.domain.Shot;
 import fponce.scoreboard.ScoreProcessorService;
 
 @Component
-public class CommandLineAppStartupRunner implements CommandLineRunner {
+class CommandLineAppStartupRunner implements CommandLineRunner {
 
     private ScoreInputReaderService reader;
     private ScoreOutputWriterService writer;
